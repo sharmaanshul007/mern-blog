@@ -1,9 +1,11 @@
 import {AiOutlineSearch} from 'react-icons/ai'
 import {  Button, ButtonGroup, Navbar, TextInput } from 'flowbite-react'
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import {FaMoon} from 'react-icons/fa'
 export default function Header() {
+  const location = useLocation();
+  const pathName = location.pathname;
   return (
         <Navbar className="flex w-full justify-around items-center">
         
@@ -34,17 +36,16 @@ export default function Header() {
 
             
             <Navbar.Collapse>
-                  <Navbar.Link>
+                  <Navbar.Link active={pathName=='/'} as={'div'}>
                     <Link to='/'>Home</Link>
-                  </Navbar.Link>
-                  <Navbar.Link>
+                  </Navbar.Link >
+                  <Navbar.Link active={pathName=='/projects'} as={'div'}>
                     <Link to='/projects'>Projects</Link>
                   </Navbar.Link>
-                  <Navbar.Link>
+                  <Navbar.Link active={pathName=='/about'} as={'div'}>
                     <Link to='/about'>About</Link>
                   </Navbar.Link>
                 </Navbar.Collapse>
         </Navbar>
-     
   )
 }
