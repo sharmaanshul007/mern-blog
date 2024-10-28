@@ -18,5 +18,5 @@ const userModel = new mongoose.model({
 
 },{timestamps:true});
 
-module.exports = mongoose.model("User",userModel);
-
+const User = mongoose.model("User",userModel);
+export default User;
