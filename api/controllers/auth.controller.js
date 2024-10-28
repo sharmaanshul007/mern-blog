@@ -1,19 +1,16 @@
 import User from "../models/user.model.js";
 import bcryptjs from 'bcryptjs';
-export const signup = async(req,res) => {
+import { errorHandler } from "../utils/error.js";
+export const signup = async(req,res,next) => {
     try{
         const {email,password,username} = req.body;
 
         if(!email || !password || !username || username === '' || email === '' || password === ''){
-            return res.status(404).json({
-                message:"All fields are required"
-            })
+            next(errorHandler(404,"All fields are required"));
         }
         const user = await User.findOne({email:email});
         if(user){
-            return res.status(400).json({
-                message:"Reentry of same user"
-            })
+            next(errorHandler(404,"User already defined"));
         }
         const hashedPassword = bcryptjs.hashSync(password,10);
 
@@ -24,9 +21,6 @@ export const signup = async(req,res) => {
             message:"User entry successfull",
         })
     }catch(err){
-        console.log(err);
-        return res.status(400).json({
-            message:"Cannot register the user",
-        })
+        next(err);
     }
 }
