@@ -21,12 +21,13 @@ export const signup = async(req,res,next) => {
 
         //create
         const newUser = await User.create({username,email,password:hashedPassword});
+        
         console.log(newUser);
         return res.status(200).json({
             message:"User entry successfull",
         })
     }catch(err){
-        next(err);
+        next(errorHandler(200,err));
     }
 }
 

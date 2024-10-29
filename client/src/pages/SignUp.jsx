@@ -16,7 +16,6 @@ export default function SignUp() {
     setFormData((prev)=>{
       return {...prev,[id] : value.trim()}
     })
-    
   }
   
   const handleSubmit = async(e) => {
@@ -40,8 +39,9 @@ export default function SignUp() {
       setLoading(false);
       setErrorMessage(null);
     }catch(error){
-      return setErrorMessage(error.message);
       setLoading(false);
+      return setErrorMessage(error.message);
+      
     }
   }
 
