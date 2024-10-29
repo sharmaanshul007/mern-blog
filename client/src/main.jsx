@@ -5,12 +5,14 @@ import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import Header from './components/Header.jsx'
 import FooterComp from './components/Footer.jsx'
+import { store } from './redux/store.js'
+import { Provider } from 'react-redux'
 createRoot(document.getElementById('root')).render(
+  <Provider store={store}>
   <BrowserRouter>
-  <StrictMode>
     <Header></Header>
     <App />
     <FooterComp></FooterComp>
-  </StrictMode>
   </BrowserRouter>
+  </Provider>
 )
