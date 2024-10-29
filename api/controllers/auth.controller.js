@@ -1,6 +1,10 @@
 import User from "../models/user.model.js";
 import bcryptjs from 'bcryptjs';
 import { errorHandler } from "../utils/error.js";
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv'
+dotenv.config();
+
 export const signup = async(req,res,next) => {
     try{
         const {email,password,username} = req.body;
@@ -23,4 +27,33 @@ export const signup = async(req,res,next) => {
     }catch(err){
         next(err);
     }
+}
+
+
+export const signin = async(req,res,next) => {
+    const {email,password} = req.body;
+    if(!email || !password || email === "" || password ===""){
+        next(errorHandler(402,"Email or password not entered"));
+    }
+    try{
+        const user = await User.findOne({email});
+        if(!user){
+            return next(errorHandler(401,"User not registerd"));
+        }
+        const compare =  bcryptjs.compareSync(password,user.password);
+        if(!compare){
+            return next(errorHandler(403,"Password doesnot match"));
+        }
+        const {password:pass,...rest} = user._doc;
+        const token = jwt.sign(
+            {id:user._id}, process.env.JWT_SECRET, {expiresIn:'260h'} 
+        )
+        return res.status(200).cookie('access_token',token,{httpOnly:true}).json(rest);
+        
+    }catch(error){
+        console.log(error);
+         next(400,'Big Mistake in Sign In ');
+    }
+    
+    
 }
