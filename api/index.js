@@ -3,8 +3,10 @@ import mongoose from 'mongoose';
 import User from './routes/user.route.js'
 import authRoute from './routes/auth.route.js'
 import {connect} from './config/database.js'
+import cookieParser from 'cookie-parser';
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 connect();
 
 app.listen(3000,()=>{
