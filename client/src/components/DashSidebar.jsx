@@ -15,14 +15,14 @@ export default function DashSidebar() {
     }
   },[location.search])
   return (
-    <Sidebar classname='w-full md:w-56'>
+    <Sidebar className='w-full md:w-56'>
         <Sidebar.Items>
             <Sidebar.ItemGroup>
                 <Link to='/dashboard?tab=profile'>
                 <Sidebar.Item active = {tab === 'profile'} icon={HiUser} label={'User'} labelColor='dark'>
                     Profile
                 </Sidebar.Item></Link>
-                <Sidebar.Item active icon={HiArrowSmRight} classname='cursor-pointer'>
+                <Sidebar.Item active icon={HiArrowSmRight} className='cursor-pointer'>
                     Sign Out
                 </Sidebar.Item>
             </Sidebar.ItemGroup>
