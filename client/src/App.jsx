@@ -7,6 +7,7 @@ import SignIn from './pages/SignIn';
 import About from './pages/About';
 import Projects from './pages/Projects';
 import Dashboard from './pages/Dashboard'
+import PrivateRoute from './components/PrivateRoute';
 function App() {
 
   return (
@@ -15,8 +16,10 @@ function App() {
       <Route path='/about' element={<About></About>}></Route>
       <Route path='/sign-in' element={<SignIn></SignIn>}></Route>
       <Route path='/sign-up' element={<SignUp></SignUp>}></Route>
-      <Route path='projects' element={<Projects></Projects>}></Route>
-      <Route path='dashboard' element={<Dashboard></Dashboard>}></Route>
+      <Route path='/projects' element={<Projects></Projects>}></Route>
+      <Route element= {<PrivateRoute></PrivateRoute>}>
+          <Route path='/dashboard' element={<Dashboard></Dashboard>}></Route>
+      </Route>
     </Routes>
   )
 }
