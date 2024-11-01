@@ -1,10 +1,12 @@
-import { Alert, Button, TextInput } from 'flowbite-react';
+import { Alert, Button, Modal, TextInput } from 'flowbite-react';
 import React, { useEffect, useState } from 'react'
 import {useDispatch, useSelector} from 'react-redux';
-import { updateStart,updateFailure,updateSuccess } from '../redux/user';
+import { updateStart,updateFailure,updateSuccess , deleteUserFailure,deleteUserStart,deleteUserSuccess, signInFailure, signInSuccess} from '../redux/user';
+import {HiOutlineExclamationCircle} from 'react-icons/hi';
 export default function DashProfile() {
     const dispatch = useDispatch();
-    const {currentUser} = useSelector(state => state.user);
+    const [showModal,setShowModal] = useState(false);
+    const {currentUser,error} = useSelector(state => state.user);
     const [imageFile,setImageFile] = useState(null);
     const [imageFileUrl,setImageFileUrl] = useState(null);
     const [formData,setFormData] = useState({});
@@ -57,6 +59,25 @@ export default function DashProfile() {
       }
     }
 
+    const handleDeleteUser = async() => {
+      setShowModal(false);
+      try{
+        const result = await fetch(`/api/user/delete/${currentUser._id}`,{
+          method:'DELETE',
+          headers:{'Content-Type':'application/json'},
+          
+        })
+        const data = await result.json();
+        if(!result.ok){
+          dispatch(deleteUserFailure(data));
+        }
+        else{
+          dispatch(deleteUserSuccess());
+        }
+      }catch(error){
+        dispatch(deleteUserFailure(error));
+      }
+    }
 
     const uploadImage = async() => {
         
@@ -81,12 +102,28 @@ export default function DashProfile() {
         <Button type='submit' gradientDuoTone='purpleToBlue'className='w-[60%]' outline>Update</Button>
       </form>
       <div className='flex justify-between w-[60%] mx-auto text-xl mt-8'>
-        <span className='text-red-500 cursor-pointer'>Delete Account</span>
+        <span className='text-red-500 cursor-pointer' onClick={()=>setShowModal(true)}>Delete Account</span>
         <span className='text-red-500 cursor-pointer'>Sign Out</span>
       </div>
       {
         updateUserSuccess && (<Alert color='success' className='mt-5'>{updateUserSuccess}</Alert>)
       }
+      {
+        error && (<Alert color='success' className='mt-5'>{updateUserSuccess}</Alert>)
+      }
+      <Modal show={showModal} popup size='md' onClose={()=>setShowModal(false)}>
+        <Modal.Header/>
+        <Modal.Body>
+          <div className="text-center">
+            <HiOutlineExclamationCircle className='h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto'></HiOutlineExclamationCircle>
+            <h3 className='mt-5 text-lg text-gray-500 dark:text-gray-200'>Are you sure, you want to delete your account?</h3>
+            <div className='flex flex-row justify-center gap-4'>
+              <Button color='failure' onClick={handleDeleteUser}>Yes, I'm sure</Button>
+              <Button color='gray' onClick={()=>{setShowModal(false)}}>No, cancel</Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   )
 }
