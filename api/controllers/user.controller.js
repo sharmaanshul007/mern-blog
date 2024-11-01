@@ -58,3 +58,21 @@ export const updateUser = async(req,res,next) => {
         return next(errorHandler(401,error));
     }
 }
+
+
+export const deleteUser = async(req,res) => {
+    if(req.user.id !== req.params.userId){
+        return next(errorHandler(401,"User not authorised to move in this row"));
+    }
+    const userId = req.params.userId;
+    try{
+        await User.findByIdAndDelete(userId);
+        return res.status(200).json("User has been deleted");
+    }catch(error){
+        console.log("User cannot be deleted in deleteuser");
+        next(errorHandler(401,error));
+    }
+}
+
+
+
