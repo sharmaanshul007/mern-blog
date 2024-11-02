@@ -48,7 +48,7 @@ export const signin = async(req,res,next) => {
         }
         const {password:pass,...rest} = user._doc;
         const token = jwt.sign(
-            {id:user._id}, process.env.JWT_SECRET, {expiresIn:'260h'} 
+            {id:user._id,isAdmin:user.isAdmin}, process.env.JWT_SECRET, {expiresIn:'260h'} 
         )
         return res.status(200).cookie('access_token',token,{httpOnly:true}).json(rest);
         
@@ -56,8 +56,6 @@ export const signin = async(req,res,next) => {
         console.log(error);
          next(400,'Big Mistake in Sign In ');
     }
-    
-    
 }
 
 export const google = async(req,res,next) => {
@@ -65,7 +63,7 @@ export const google = async(req,res,next) => {
         const {name, email , googlePhotoUrl} = req.body;
         const user = await User.findOne({email});
         if(user){
-            const token = jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn:"260h"});
+            const token = jwt.sign({id:user._id,isAdmin:user.isAdmin},process.env.JWT_SECRET,{expiresIn:"260h"});
             const {password:pass,...rest} = user._doc;
             return res.status(200).cookie('access_token',token,{httpOnly:true}).json(rest);
         }
@@ -74,7 +72,7 @@ export const google = async(req,res,next) => {
         const savedUser = await User.create({username:name.toLowerCase().split(' ').join('') + Math.random().toString(9).slice(-4),email:email,password:
             hashedPassword,profilePicture:googlePhotoUrl});
         const {password:pass,...rest} = savedUser._doc;
-        const token = jwt.sign({id:savedUser._id},process.env.JWT_SECRET,{expiresIn:"260h"});
+        const token = jwt.sign({id:savedUser._id,isAdmin:savedUser.isAdmin},process.env.JWT_SECRET,{expiresIn:"260h"});
         return res.status(200).cookie('access_token',token,{httpOnly:true}).json(rest);
     }catch(error){
         console.log(error);
