@@ -1,7 +1,7 @@
 import { Alert, Button, Modal, TextInput } from 'flowbite-react';
 import React, { useEffect, useState } from 'react'
 import {useDispatch, useSelector} from 'react-redux';
-import { updateStart,updateFailure,updateSuccess , deleteUserFailure,deleteUserStart,deleteUserSuccess, signInFailure, signInSuccess} from '../redux/user';
+import { updateStart,updateFailure,updateSuccess , deleteUserFailure,deleteUserStart,deleteUserSuccess, signInFailure, signInSuccess, signOutSuccess} from '../redux/user';
 import {HiOutlineExclamationCircle} from 'react-icons/hi';
 export default function DashProfile() {
     const dispatch = useDispatch();
@@ -82,6 +82,22 @@ export default function DashProfile() {
     const uploadImage = async() => {
         
     }
+    const handleSignOut = async() => {
+      try{
+        const response = await fetch('/api/user/signout',{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+        })
+        const data = response.json();
+        if(!response.ok){
+          console.log(data.message);
+        }else{
+          dispatch(signOutSuccess());
+        }
+      }catch(err){
+        console.log(err);
+      }
+    }
     useEffect(() => {
         if(imageFile){
             uploadImage();
@@ -103,7 +119,7 @@ export default function DashProfile() {
       </form>
       <div className='flex justify-between w-[60%] mx-auto text-xl mt-8'>
         <span className='text-red-500 cursor-pointer' onClick={()=>setShowModal(true)}>Delete Account</span>
-        <span className='text-red-500 cursor-pointer'>Sign Out</span>
+        <span className='text-red-500 cursor-pointer' onClick={handleSignOut}>Sign Out</span>
       </div>
       {
         updateUserSuccess && (<Alert color='success' className='mt-5'>{updateUserSuccess}</Alert>)
