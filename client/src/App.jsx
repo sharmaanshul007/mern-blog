@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import {BrowserRouter,Route,Routes} from "react-router-dom"
+import CreatePost from './pages/createPost';
 import Home from './pages/Home';
 import SignUp from './pages/SignUp'
 import SignIn from './pages/SignIn';
@@ -8,6 +9,7 @@ import About from './pages/About';
 import Projects from './pages/Projects';
 import Dashboard from './pages/Dashboard'
 import PrivateRoute from './components/PrivateRoute';
+import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute';
 function App() {
 
   return (
@@ -19,6 +21,9 @@ function App() {
       <Route path='/projects' element={<Projects></Projects>}></Route>
       <Route element= {<PrivateRoute></PrivateRoute>}>
           <Route path='/dashboard' element={<Dashboard></Dashboard>}></Route>
+      </Route>
+      <Route element={<OnlyAdminPrivateRoute></OnlyAdminPrivateRoute>}>
+        <Route path='/create-post' element={<CreatePost></CreatePost>}></Route>
       </Route>
     </Routes>
   )

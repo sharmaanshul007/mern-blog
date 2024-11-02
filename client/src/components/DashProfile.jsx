@@ -1,6 +1,7 @@
 import { Alert, Button, Modal, TextInput } from 'flowbite-react';
 import React, { useEffect, useState } from 'react'
 import {useDispatch, useSelector} from 'react-redux';
+import {Link} from 'react-router-dom';
 import { updateStart,updateFailure,updateSuccess , deleteUserFailure,deleteUserStart,deleteUserSuccess, signInFailure, signInSuccess, signOutSuccess} from '../redux/user';
 import {HiOutlineExclamationCircle} from 'react-icons/hi';
 export default function DashProfile() {
@@ -12,7 +13,6 @@ export default function DashProfile() {
     const [formData,setFormData] = useState({});
     const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
     const [updateUserFailure,setUpdateUserFailure] = useState(null);
-
     const handleInput = (e) => {
         const file = e.target.files[0];
         if(file){
@@ -116,6 +116,11 @@ export default function DashProfile() {
         <TextInput type='text' placeholder='Email' id='email' defaultValue={currentUser.email} className='w-[60%]' onChange={handleChange}></TextInput>
         <TextInput type='text' placeholder='password' id='password' defaultValue='************' className='w-[60%]' onChange={handleChange}></TextInput>
         <Button type='submit' gradientDuoTone='purpleToBlue'className='w-[60%]' outline>Update</Button>
+        {
+          currentUser.isAdmin && (
+            <Link className='w-full mx-auto' to={'/create-post'}><Button type='button' gradientDuoTone='purpleToBlue' outline className='mx-auto w-[60%]'>Create a Post</Button></Link>
+          )
+        }
       </form>
       <div className='flex justify-between w-[60%] mx-auto text-xl mt-8'>
         <span className='text-red-500 cursor-pointer' onClick={()=>setShowModal(true)}>Delete Account</span>
