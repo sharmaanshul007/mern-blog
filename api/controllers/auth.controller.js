@@ -35,7 +35,7 @@ export const signup = async(req,res,next) => {
 export const signin = async(req,res,next) => {
     const {email,password} = req.body;
     if(!email || !password || email === "" || password ===""){
-        next(errorHandler(402,"Email or password not entered"));
+        return next(errorHandler(402,"Email or password not entered"));
     }
     try{
         const user = await User.findOne({email});
