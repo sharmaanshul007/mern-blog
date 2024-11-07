@@ -60,7 +60,7 @@ export const getposts = async(req,res,next) => {
             createdAt:{$gte:oneMonthAgo},
         })
 
-        res.status(200).json({
+        return res.status(200).json({
             posts,
             lastMonthPosts,
             totalPosts,
@@ -68,6 +68,6 @@ export const getposts = async(req,res,next) => {
 
     }catch(error){
         console.log(error);
-        next(errorHandler(400,error));
+        return next(errorHandler(400,error));
     }
 }
