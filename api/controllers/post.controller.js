@@ -71,3 +71,17 @@ export const getposts = async(req,res,next) => {
         return next(errorHandler(400,error));
     }
 }
+
+
+export const deletePost = async(req,res,next) => {
+    if(!req.user.isAdmin || req.user.id !== req.params.userId){
+        return next(errorHandler(401,'User not validated and hence not allowed to delete the post'));
+    }
+    try{
+        const result = await Post.findByIdAndDelete(req.params.postId);
+        return res.status(200).json("Post has been deleted completely");
+    }catch(error){
+        console.log(error);
+        return next(errorHandler(401,error));
+    }
+}
