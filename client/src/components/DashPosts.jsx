@@ -1,5 +1,5 @@
 import React from 'react';
-import {Table} from 'flowbite-react';
+import {Button, Table} from 'flowbite-react';
 import { useState,useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {Link} from 'react-router-dom'
@@ -21,6 +21,24 @@ export default function DashPosts() {
     fetchPosts();
   },[currentUser._id]);
   
+
+  const handleReadMore = async() => {
+    
+    try{
+      const index = userPosts.length;
+      const res = await fetch(`/api/post/getposts?userId=${currentUser._id}&startIndex=${index}`);
+      const data = await res.json();
+      console.log(data.posts);
+      if(res.ok){
+        setUserPosts((prev)=>[...prev,...data.posts]);
+      }
+      console.log(userPosts.length);
+    }catch(error){
+      console.log(error);
+    }
+  }
+
+
   return (
     <div className=' table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
       {
@@ -66,7 +84,9 @@ export default function DashPosts() {
               })
             }
           </Table>
-          
+          <Button type='button' onClick={handleReadMore}>
+            Read More
+          </Button>
         </>) : ( <p>You have no posts yet</p>)
       }
     </div>
