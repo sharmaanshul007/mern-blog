@@ -38,7 +38,7 @@ export default function DashPosts() {
     }catch(error){
       console.log(error);
     }
-  }
+  } 
   
   const handleDeletePost = async() => {
     setShowModal(false);
@@ -101,7 +101,7 @@ export default function DashPosts() {
                       }}>Delete</span>
                     </Table.Cell>
                     <Table.Cell>
-                      <Link to={`/post/${post._id}`} className='text-teal-500'>
+                      <Link to={`/update-post/${post._id}`} className='text-teal-500'>
                         <span>
                           Edit
                         </span></Link>

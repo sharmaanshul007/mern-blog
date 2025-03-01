@@ -73,7 +73,8 @@ export default function Header() {
                     </Link>
                     <Dropdown.Divider></Dropdown.Divider>
                     <Dropdown.Item onClick={handleSignOut}>Sign Out</Dropdown.Item>
-                  </Dropdown>) : 
+                  </Dropdown>) 
+                  : 
                   (<Link to='/sign-in'>
                     <Button gradientDuoTone='purpleToBlue' className='text-sm sm:text-xl'>Sign In</Button>
                     </Link>)

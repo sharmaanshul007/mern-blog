@@ -1,8 +1,6 @@
 import Post from "../models/post.model.js";
 import {errorHandler} from '../utils/error.js';
 export const create = async(req,res,next) => {
-    console.log("This is request by abhinav the buwade",req);
-    console.log("buwade ka aashiq");
     console.log(req.user);
     if(!req.user.isAdmin){
         return next(errorHandler(401,"Unauthorized User bhai "));
@@ -83,5 +81,46 @@ export const deletePost = async(req,res,next) => {
     }catch(error){
         console.log(error);
         return next(errorHandler(401,error));
+    }
+}
+
+
+export const getSinglePost = async(req,res,next) =>{
+    try{
+        const {postId} = req.params;
+        const post = await Post.findById(postId);
+        if(!post){
+            return next(errorHandler(404,"Post not found"));
+        }
+        return res.status(200).json(post);
+    }catch(error){
+        return errorHandler(400,error);
+    }
+}
+
+export const updatePost = async(req,res,next) => {
+    try{
+        const {postId} = req.params;
+        const postToBeUpdated = req.body.post;
+        
+        const post = await Post.findById(postId);
+        if(!post){
+            return next(errorHandler(404,"Post not found"));
+        }
+        const updatedPost = await Post.findByIdAndUpdate(postId,
+            {
+                $set:{
+                    title : req.body.title,
+                    content:req.body.content,
+                    category:req.body.category,
+                }
+            },{new:true}
+        );
+        return res.status(200).json(updatedPost);
+
+    }
+    catch(error){
+        console.log("Error in updating the post");
+        return errorHandler(400,error);
     }
 }
