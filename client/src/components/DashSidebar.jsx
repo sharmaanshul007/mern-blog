@@ -1,5 +1,5 @@
 import React from 'react';
-import {HiArrowSmRight, HiDocumentText, HiUser} from 'react-icons/hi';
+import {HiArrowSmRight, HiDocumentText, HiOutlineUserGroup, HiUser} from 'react-icons/hi';
 import {Sidebar} from 'flowbite-react';
 import { Link, useLocation,useSearchParams} from 'react-router-dom';
 import { useState , useEffect} from 'react';
@@ -50,9 +50,17 @@ export default function DashSidebar() {
                 }
                 
                 </Link>
+                <Link to={'/dashboard?tab=users'}>
+                {
+                  currentUser.isAdmin && (<Sidebar.Item as='div' active = {tab === 'users'} icon={HiOutlineUserGroup}>
+                    Users
+                  </Sidebar.Item>)
+                }
+                </Link>
                 <Sidebar.Item active icon={HiArrowSmRight} className='cursor-pointer' onClick={handleSignOut}>
                     Sign Out
                 </Sidebar.Item>
+
             </Sidebar.ItemGroup>
         </Sidebar.Items>
     </Sidebar>
