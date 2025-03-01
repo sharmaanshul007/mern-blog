@@ -61,7 +61,7 @@ export const updateUser = async(req,res,next) => {
 
 
 export const deleteUser = async(req,res) => {
-    if(req.user.id !== req.params.userId){
+    if(!req.user.isAdmin && req.user.id !== req.params.userId){
         return next(errorHandler(401,"User not authorised to move in this row"));
     }
     const userId = req.params.userId;
