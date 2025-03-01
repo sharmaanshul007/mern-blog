@@ -84,3 +84,39 @@ export const signOut = async(req,res,next) => {
     }
 }
 
+export const getUser = async(req,res,next) => {
+    try{
+        if(!req.user.isAdmin){
+            console.log("Not an admin pau");
+            return errorHandler(401,"User is not an admin and hence not allowed to move in this path");
+        }
+        const startIndex = req.query.startIndex ? parseInt(req.query.startIndex) : 0;
+        const limit = parseInt(req.query.limit) || 10;
+        const sortDirection = req.query.sort === 1 ? 1 : -1;
+        const allUsers = await User.find({}).sort({createdAt:sortDirection}).skip(startIndex).limit(limit);
+        const userWithoutPassword = allUsers.map((user)=>{
+            const {password,...rest} = user._doc;
+            return rest;
+        });
+        const totalUsers = await User.countDocuments();
+        const now = new Date();
+        const oneMonthAgo = new Date(
+            now.getFullYear(),
+            now.getMonth() - 1,
+            now.getDate()
+        );
+        const lastMonthUsers = await User.find({
+            createdAt:{$gte:oneMonthAgo}
+        })
+        return res.status(200).json({
+            users:userWithoutPassword,
+            totalUsers,
+            lastMonthUsers,
+        });
+    }
+    catch(error){
+        console.log(error);
+        return errorHandler(400,error);
+    }
+}
+
