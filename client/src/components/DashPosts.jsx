@@ -90,8 +90,8 @@ export default function DashPosts() {
                   <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-700'>
                     <Table.Cell>{new Date(post.updatedAt).toLocaleDateString()}</Table.Cell>
                     <Table.Cell className='font-medium text-gray-900 dark:text-white'>
-                      <Link to={`/post/${post.slug}`}></Link>
-                      {post.title}</Table.Cell>
+                      <Link to={`/post/${post.slug}`}>{post.title}</Link>
+                      </Table.Cell>
                     <Table.Cell>{post.category}</Table.Cell>
                     <Table.Cell >
                       <span className='font-medium hover:underline text-red-500' onClick={()=>{

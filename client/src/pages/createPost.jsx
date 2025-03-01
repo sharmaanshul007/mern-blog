@@ -40,9 +40,11 @@ export default function CreatePost() {
             </TextInput>
             <Select className='flex-1' onChange={(e)=> setFormData({...formData,category:e.target.value})}>
                     <option value='uncategorized'>Select a Category</option>
-                    <option value='javascript'>JavaScript</option>
-                    <option value='reactjs'>React Js</option>
-                    <option value='nextjs'>Next Js</option>
+                    <option value='javascript'>App Development</option>
+                    <option value='reactjs'>Artificial Intelligence</option>
+                    <option value='nextjs'>Web Development</option>
+                    <option value='nextjs'>Cloud Computing</option>
+                    <option value='nextjs'>Technology</option>
             </Select>
             
         </div>
