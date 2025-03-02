@@ -34,3 +34,38 @@ export const getPostComments = async (req, res, next) => {
     return next(errorHandler(401, error.message));
   }
 }
+
+
+export const getComments = async(req,res,next) => {
+  if(!req.user.isAdmin){
+    return next(errorHandler(401, "You are not authorized to view this page"));
+  }
+  try{
+    const startIndex = req.query.startIndex || 0;
+    const sortDirection = req.query.sortDirection === "desc" ? -1 : 1;
+    const comments = await Comment.find().sort({createdAt:sortDirection}).skip(parseInt(startIndex)).limit(9);
+    const totalComments = await Comment.countDocuments();
+    const now = new Date();
+    const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+    const lastMonthComments = await Comment.find({createdAt:{
+      $gte:oneMonthAgo
+    }})
+    return res.status(200).json({comments,totalComments,lastMonthComments});
+  }catch(error){
+    console.log("Error in getting the comments from the stored database");
+    return next(errorHandler(401, error.message));
+  }
+}
+
+
+export const deleteComment = async(req,res,next) => { 
+  try{
+    const commentId = req.params.commentId;
+    const deletedComment = await Comment.findByIdAndDelete(commentId);   
+    return res.status(200).json(deletedComment);
+  }
+  catch(error){
+    console.log("Error in deleting the comment from the stored database");
+    return next(errorHandler(401, error.message));
+  } 
+}
