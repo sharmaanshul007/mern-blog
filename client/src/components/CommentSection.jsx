@@ -3,18 +3,21 @@ import React from 'react';
 import { Alert, Button } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Textarea, TextInput } from 'flowbite-react';
+import Comment from './Comment';
 export default function CommentSection({postId}) {
   const {currentUser} = useSelector(state => state.user);
   const [comment,setComment] = useState('');
   const [commentError,setError] = useState('');
+  const [comments,setComments] = useState([]);
   const handleSubmit = async(e) => {
     try{
       e.preventDefault();
       if(comment.length > 200){
         return ;
       }
+      console.log(currentUser._id);
       const res = await fetch('/api/comment/create',{
         method:"POST",
         headers:{'Content-Type':"application/json"},
@@ -28,12 +31,38 @@ export default function CommentSection({postId}) {
       }
       setError('');
       setComment('');
+      setComments([data,...comments]);
     }catch(error){
       setError(error);
       console.log(error);
       console.log('Failed to post comment');
     }
   }
+
+  useEffect(()=>{
+    const getComments = async() => {
+      try{
+        const res = await fetch(`/api/comment/getPostComments/${postId}`,{
+          method:"GET",
+          headers:{'Content-Type':"application/json"},
+          body:JSON.stringify()
+        });
+        console.log("hanji pauy");
+        const data = await res.json();
+        if(!res.ok){
+          console.log(data.message);
+          return;
+        }
+        setComments(data);
+        
+      }catch(error){
+        console.log(error);
+        console.log("Failed to get the comments from the server");
+      }
+    }
+    getComments();
+  },[postId]);
+  
   return (
     <div className='max-w-2xl mx-auto w-full p-3'>   
       {
@@ -69,8 +98,24 @@ export default function CommentSection({postId}) {
                 </Alert>}
             </form>
         )
+
       }
-      
+      {
+        comments.length === 0 ?(<p className='text-sm my-5'>No Comments yet!</p>) :
+        (<><div className='text-sm my-5 flex items-center gap-1'>
+          <p>Comments</p>
+          <div className='border border-gray-400 py-1 px-2 rounded-sm '>
+            <p>{comments.length}</p>
+
+          </div>
+        </div>
+        {
+          comments.map((comment)=> {
+            return <Comment comment={comment} key={comment._id}></Comment>
+          })
+        }
+      </>)
+      }
     </div>
   )
 }

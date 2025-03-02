@@ -5,7 +5,7 @@ export const createComment = async (req, res, next) => {
   try {
     const { comment, postId, userId } = req.body;
     console.log(comment, postId, userId);
-    if (!comment || !postId || !userId || comment.trim() === "") {
+    if(!comment || !postId || !userId || comment.trim() === "") {
       return next(errorHandler(400, "Please fill all the fields"));
     }
     console.log("hi1");
@@ -17,9 +17,20 @@ export const createComment = async (req, res, next) => {
       success: true,
       savedComment,
     });
-    console.log("hi3");
+    
   } catch (error) {
     console.log("Server Error:", error);
     return next(errorHandler(500, error.message));
   }
 };
+
+export const getPostComments = async (req, res, next) => {
+  try {
+    const postId = req.params.postId;
+    const comments = await Comment.find({postId:req.params.postId}).sort({createdAt:-1});   
+    return res.status(200).json(comments);
+  }catch(error){
+    console.log("Error in getting the comments from the stored database");
+    return next(errorHandler(401, error.message));
+  }
+}
