@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import User from './routes/user.route.js'
 import authRoute from './routes/auth.route.js'
 import postRoute from './routes/post.route.js'
+import commentRoute from './routes/comment.route.js'
 import {connect} from './config/database.js'
 import cookieParser from 'cookie-parser';
 const app = express();
@@ -19,7 +20,7 @@ app.listen(3000,()=>{
 app.use('/api/user',User);
 app.use('/api/auth',authRoute);
 app.use('/api/post',postRoute);
-
+app.use('/api/comment',commentRoute)
 app.use((err,req,res,next)=>{
     const statusCode = err.statusCode || 500;
     const message = err.message || "Internal Server Error";
