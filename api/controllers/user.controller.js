@@ -105,9 +105,12 @@ export const getUser = async(req,res,next) => {
             now.getMonth() - 1,
             now.getDate()
         );
-        const lastMonthUsers = await User.find({
+        const lastMonthUsers1 = await User.find({
             createdAt:{$gte:oneMonthAgo}
-        })
+        });
+
+        const lastMonthUsers = lastMonthUsers1.length;
+
         return res.status(200).json({
             users:userWithoutPassword,
             totalUsers,

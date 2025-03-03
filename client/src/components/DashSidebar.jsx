@@ -42,6 +42,10 @@ export default function DashSidebar() {
                 <Sidebar.Item as='div' active = {tab === 'profile'} icon={HiUser} label={currentUser.isAdmin ? ( 'Admin' ) : ('User' )} labelColor='dark'>
                     Profile
                 </Sidebar.Item></Link>
+                <Link to='/dashboard?tab=dashboard'>
+                <Sidebar.Item as='div' active = {tab === 'dashboard'} icon={HiUser}  labelColor='dark'>
+                    Dashboard
+                </Sidebar.Item></Link>
                 <Link to={'/dashboard?tab=posts'}>
                 {
                   currentUser.isAdmin && (<Sidebar.Item as='div' active = {tab === 'posts'} icon={HiDocumentText}>
@@ -50,6 +54,7 @@ export default function DashSidebar() {
                 }
                 
                 </Link>
+                
                 <Link to={'/dashboard?tab=users'}>
                 {
                   currentUser.isAdmin && (<Sidebar.Item as='div' active = {tab === 'users'} icon={HiOutlineUserGroup}>

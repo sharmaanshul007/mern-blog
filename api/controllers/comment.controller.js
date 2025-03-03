@@ -41,15 +41,18 @@ export const getComments = async(req,res,next) => {
     return next(errorHandler(401, "You are not authorized to view this page"));
   }
   try{
+    const limit = req.query.limit || 5;
     const startIndex = req.query.startIndex || 0;
     const sortDirection = req.query.sortDirection === "desc" ? -1 : 1;
-    const comments = await Comment.find().sort({createdAt:sortDirection}).skip(parseInt(startIndex)).limit(9);
+    const comments = await Comment.find().sort({createdAt:sortDirection}).skip(parseInt(startIndex)).limit(limit);
     const totalComments = await Comment.countDocuments();
+    console.log(totalComments);
     const now = new Date();
     const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
-    const lastMonthComments = await Comment.find({createdAt:{
+    const lastMonthComments1 = await Comment.find({createdAt:{
       $gte:oneMonthAgo
     }})
+    const lastMonthComments = lastMonthComments1.length;
     return res.status(200).json({comments,totalComments,lastMonthComments});
   }catch(error){
     console.log("Error in getting the comments from the stored database");
