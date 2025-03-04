@@ -1,6 +1,6 @@
 import {AiOutlineSearch} from 'react-icons/ai'
 import {  Avatar, Button, ButtonGroup, Dropdown, Navbar, TextInput } from 'flowbite-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import {FaMoon,FaSun} from 'react-icons/fa'
 import { useSelector } from 'react-redux'
@@ -10,6 +10,7 @@ import { signOutSuccess } from '../redux/user.js'
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchTerm,setSearchTerm] = useState('');
   const pathName = location.pathname;
   const dispatch = useDispatch();
   const {theme} = useSelector(state => state.theme);
@@ -36,6 +37,21 @@ export default function Header() {
       console.log(err);
     }
   }
+  useEffect(()=>{
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromURL = urlParams.get('searchTerm');
+    if(searchTermFromURL){
+      setSearchTerm(searchTermFromURL);
+    }
+  },[location.search]);
+  const handleSubmit= (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set('searchTerm',searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  };
+
   return (
         <Navbar className="flex w-full justify-around items-center mt-4">
         
@@ -44,11 +60,13 @@ export default function Header() {
                 <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-600 rounded-md text-white'>Tech</span> Blog
               </Link>
               {/* search bar */}
-              <form>
+              <form onSubmit={handleSubmit}>
                 <TextInput
                 type='text'
                 placeholder='Search...'
-                className='hidden lg:inline'>
+                className='hidden lg:inline'
+                value={searchTerm}
+                onChange={(e)=>setSearchTerm(e.target.value)}>
                 </TextInput>
               </form>
               <Button className='w-12 h-10 lg:hidden pill'><AiOutlineSearch></AiOutlineSearch></Button>
