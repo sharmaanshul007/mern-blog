@@ -28,7 +28,6 @@ export default function DashProfile() {
         return {...formData,[id]:val}
       })
     }
-    console.log(formData);
     
     const handleSubmit = async(e) => {
       e.preventDefault();

@@ -77,7 +77,6 @@ export default function Search() {
         fetchPosts();
 
     },[location.search]);
-    console.log(sideBarData);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -129,7 +128,7 @@ export default function Search() {
                 </div>
                 <div className='flex items-center gap-2'>
                     <label className='whitespace-nowrap font-semibold '>Sort:</label>
-                    <Select onChange={handleChange}value={sideBarData.sort} defaultValue={sideBarData.sort} id='sort'>
+                    <Select onChange={handleChange}value={sideBarData.sort} id='sort'>
                         <option value='desc'>Latest</option>
                         <option value='asc'>Oldest</option>
                     </Select>

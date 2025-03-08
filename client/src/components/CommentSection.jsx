@@ -47,7 +47,6 @@ export default function CommentSection({postId}) {
           headers:{'Content-Type':"application/json"},
           body:JSON.stringify()
         });
-        console.log("hanji pauy");
         const data = await res.json();
         if(!res.ok){
           console.log(data.message);
@@ -91,7 +90,7 @@ export default function CommentSection({postId}) {
                     />                
                 <div className='flex justify-between items-center mt-5 mb-4'>
                   <p className='text-gray-500 text-xs'>{200 - comment.length} Characters Remaining</p> 
-                  <Button outline gradientDuoTune='purpleToBlue' type='submit'>Submit</Button>
+                  <Button outline gradientduotune='purpleToPink' type='submit'>Submit</Button>
                   
                 </div>
                 {commentError && <Alert color='failure'>{commentError}

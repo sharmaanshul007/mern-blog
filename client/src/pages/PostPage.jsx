@@ -36,7 +36,6 @@ export default function PostPage() {
         }
         getPost();
     },[postSlug]);
-    console.log(post);
     if(loading) return <div className='flex justify-center items-center min-h-screen'><Spinner size='xl' ></Spinner></div>
   return (
     <main className='p-3 flex flex-col max-w-6xl mx-auto min-h-screen'>

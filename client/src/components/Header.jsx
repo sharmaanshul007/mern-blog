@@ -112,6 +112,11 @@ export default function Header() {
                   <Navbar.Link active={pathName=='/about'} as={'div'}>
                     <Link to='/about'>About</Link>
                   </Navbar.Link>
+                  {
+                    currentUser.isAdmin && (<Navbar.Link active={pathName=='/dashboard?tab=profile'} as={'div'}>
+                      <Link to='/about'>Dashboard</Link>
+                    </Navbar.Link>)
+                  }
                 </Navbar.Collapse>
         </Navbar>
   )
