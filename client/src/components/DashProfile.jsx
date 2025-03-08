@@ -41,14 +41,12 @@ export default function DashProfile() {
           headers:{'Content-Type':'application/json'},
           body:JSON.stringify(formData)
         });
-        console.log("hey data");
         const data =await res.json();
         if(!res.ok){
           console.log("failure");
           dispatch(updateFailure(data.message));
         }
         else{
-          console.log("haa pay");
           setUpdateUserSuccess("User details have been updated successfully");
           dispatch(updateSuccess(data)); 
         }
