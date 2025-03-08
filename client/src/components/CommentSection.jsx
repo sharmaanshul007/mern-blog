@@ -83,6 +83,7 @@ export default function CommentSection({postId}) {
         body:JSON.stringify({comment,userId:currentUser._id,postId})
       });
       const data = await res.json();
+      console.log(data);
       if(!res.ok){
         setCommentError(data.message);
         console.log(data.message);
@@ -90,7 +91,7 @@ export default function CommentSection({postId}) {
       }
       setCommentError('');
       setComment('');
-      setComments([data,...comments]);
+      setComments([data.savedComment,...comments]);
     }catch(error){
       setCommentError(error);
       console.log(error);

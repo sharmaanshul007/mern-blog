@@ -7,8 +7,8 @@ import { set } from 'mongoose';
 export default function Comment({ comment, onLike, onEdit, onDelete }) {
     const [user,setUser] = useState({});
     const [isEditing, setIsEditing] = useState(false);
-  const [editedContent, setEditedContent] = useState(comment.content);
-  const { currentUser } = useSelector((state) => state.user);
+    const [editedContent, setEditedContent] = useState(comment.content);
+    const { currentUser } = useSelector((state) => state.user);
     useEffect(()=>{
         const getUser = async() => {
             try{
@@ -55,6 +55,7 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
           console.log(error.message);
         }
       };
+      
     return (
         <div className='flex p-4 border-b dark:border-gray-600 text-sm'>
           <div className='flex-shrink-0 mr-3'>
