@@ -114,7 +114,7 @@ export default function DashProfile() {
         <TextInput type='text' placeholder='password' id='password' defaultValue='************' className='w-[60%]' onChange={handleChange}></TextInput>
         <Button type='submit' gradientDuoTone='purpleToBlue'className='w-[60%]' outline>Update</Button>
         {
-          currentUser.isAdmin && (
+           (
             <Link className='w-full mx-auto' to={'/create-post'}><Button type='button' gradientDuoTone='purpleToBlue' outline className='mx-auto w-[60%]'>Create a Post</Button></Link>
           )
         }
