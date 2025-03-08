@@ -112,7 +112,7 @@ export default function Header() {
                     <Link to='/about'>About</Link>
                   </Navbar.Link>
                   {
-                    currentUser.isAdmin && (<Navbar.Link active={pathName=='/dashboard'} as={'div'}>
+                    currentUser?.isAdmin && (<Navbar.Link active={pathName=='/dashboard'} as={'div'}>
                       <Link to='/dashboard?tab=profile'>Dashboard</Link>
                     </Navbar.Link>)
                   }
