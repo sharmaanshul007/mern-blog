@@ -69,7 +69,6 @@ export default function Header() {
                 onChange={(e)=>setSearchTerm(e.target.value)}>
                 </TextInput>
               </form>
-              <Button className='w-12 h-10 lg:hidden pill'><AiOutlineSearch></AiOutlineSearch></Button>
 
               <div className='flex flex-row gap-3 md:order-2'>
                 <Button className='w-12 h-10 sm:inline hidden' onClick={handleThemeChange}>
