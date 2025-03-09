@@ -42,33 +42,35 @@ export default function DashSidebar() {
                 <Sidebar.Item as='div' active = {tab === 'profile'} icon={HiUser} label={currentUser.isAdmin ? ( 'Admin' ) : ('User' )} labelColor='dark'>
                     Profile
                 </Sidebar.Item></Link>
-                <Link to='/dashboard?tab=dashboard'>
-                <Sidebar.Item as='div' active = {tab === 'dashboard'} icon={HiUser}  labelColor='dark'>
-                    Dashboard
-                </Sidebar.Item></Link>
-                <Link to={'/dashboard?tab=posts'}>
+                { currentUser.isAdmin &&
+                  <Link to='/dashboard?tab=dashboard'>
+                  <Sidebar.Item as='div' active = {tab === 'dashboard'} icon={HiUser}  labelColor='dark'>
+                      Dashboard
+                  </Sidebar.Item></Link>
+                }
+                
                 {
-                  currentUser.isAdmin && (<Sidebar.Item as='div' active = {tab === 'posts'} icon={HiDocumentText}>
+                  currentUser.isAdmin && (<Link to={'/dashboard?tab=posts'}><Sidebar.Item as='div' active = {tab === 'posts'} icon={HiDocumentText}>
                     Posts
-                </Sidebar.Item>)
+                </Sidebar.Item></Link>)
                 }
                 
-                </Link>
                 
-                <Link to={'/dashboard?tab=users'}>
+                
+                
                 {
-                  currentUser.isAdmin && (<Sidebar.Item as='div' active = {tab === 'users'} icon={HiOutlineUserGroup}>
+                  currentUser.isAdmin && (<Link to={'/dashboard?tab=users'}><Sidebar.Item as='div' active = {tab === 'users'} icon={HiOutlineUserGroup}>
                     Users
-                  </Sidebar.Item>)
+                  </Sidebar.Item></Link>)
                 }
-                </Link>
-                <Link to={'/dashboard?tab=comments'}>
+                
+                
                 {
-                  currentUser.isAdmin && (<Sidebar.Item as='div' active = {tab === 'comments'} icon={HiAnnotation}>
+                  currentUser.isAdmin && (<Link to={'/dashboard?tab=comments'}><Sidebar.Item as='div' active = {tab === 'comments'} icon={HiAnnotation}>
                     Comments
-                  </Sidebar.Item>)
+                  </Sidebar.Item></Link>)
                 }
-                </Link>
+                
                 <Sidebar.Item active icon={HiArrowSmRight} className='cursor-pointer' onClick={handleSignOut}>
                     Sign Out
                 </Sidebar.Item>
