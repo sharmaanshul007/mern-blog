@@ -53,7 +53,7 @@ export default function Header() {
   };
 
   return (
-        <Navbar className="flex w-full justify-around items-center mt-4">
+        <Navbar className="flex w-full justify-around items-center py-4">
         
               {/* Logo */}
               <Link to='/' className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'>
